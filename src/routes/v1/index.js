@@ -1,5 +1,6 @@
 const express = require('express');
 const authRoute = require('./auth.route');
+const boardRoute = require('./board.route');
 const userRoute = require('./user.route');
 const groupCardRoute = require('./groupCard.route');
 const docsRoute = require('./docs.route');
@@ -17,7 +18,11 @@ const defaultRoutes = [
     route: userRoute,
   },
   {
-    path: '/group-cards',
+    path: '/boards',
+    route: boardRoute,
+  },
+  {
+    path: '/boards',
     route: groupCardRoute,
   },
 ];

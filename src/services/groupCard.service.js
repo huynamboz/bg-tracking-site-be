@@ -2,8 +2,11 @@ const httpStatus = require('http-status');
 const { GroupCard } = require('../models');
 const ApiError = require('../utils/ApiError');
 
-const createGroupCard = async (groupBody) => {
-  return GroupCard.create(groupBody);
+const createGroupCard = async (groupBody, boardId) => {
+  return GroupCard.create({
+    ...groupBody,
+    board: boardId
+  });
 };
 
 

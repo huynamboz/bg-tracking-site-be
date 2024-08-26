@@ -3,14 +3,14 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const userValidation = require('../../validations/user.validation');
 const userController = require('../../controllers/user.controller');
-const groupCardController = require('../../controllers/groupCard.controller');
+const boardController = require('../../controllers/board.controller');
 
 const router = express.Router();
 
 router
-  .route('/:boardId/group-cards')
-  .post(groupCardController.createGroupCard)
-  .get(groupCardController.getGroupCards);
+  .route('/')
+  .post(auth(), boardController.createBoard)
+  .get(auth(), boardController.getBoards);
 
 module.exports = router;
 

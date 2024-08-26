@@ -13,6 +13,11 @@ const groupCardSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    board: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Board',
+      required: true,
+    },
   },
   {
     timestamps: true,

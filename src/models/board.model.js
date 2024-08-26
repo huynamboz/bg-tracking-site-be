@@ -27,6 +27,6 @@ boardSchema.plugin(paginate);
 /**
  * @typedef board
  */
-const board = mongoose.model('Bard', boardSchema);
+const board = mongoose.model('Board', boardSchema);
 
 module.exports = board;
