@@ -2,16 +2,17 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
 
-const groupCardSchema = mongoose.Schema(
+const labelSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       trim: true,
     },
-    position: {
-      type: Number,
+    color: {
+      type: String,
       required: true,
+      trim: true,
     },
   },
   {
@@ -20,12 +21,12 @@ const groupCardSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-groupCardSchema.plugin(toJSON);
-groupCardSchema.plugin(paginate);
+labelSchema.plugin(toJSON);
+labelSchema.plugin(paginate);
 
 /**
- * @typedef GroupCard
+ * @typedef board
  */
-const GroupCard = mongoose.model('GroupCard', groupCardSchema);
+const board = mongoose.model('Label', labelSchema);
 
-module.exports = GroupCard;
+module.exports = board;
