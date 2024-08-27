@@ -116,11 +116,18 @@ const removeLabel = catchAsync(async (req, res) => {
   res.send(label);
 });
 
+const updateCard = catchAsync(async (req, res) => {
+  const { cardId } = req.params;
+  const card = await cardService.updateCard(cardId, req.body);
+  res.send(card);
+});
+
 
 module.exports = {
   getCards,
   createCard,
   changeCardPosition,
   addLabel,
-  removeLabel
+  removeLabel,
+  updateCard,
 };

@@ -13,16 +13,20 @@ router
   .get(cardController.getCards);
 
 router
+  .route('/:groupId/cards/:cardId')
+  .patch(cardController.updateCard)
+
+router
   .route('/:groupId/cards/:cardId/change-position')
   .post(cardController.changeCardPosition)
 
 router
   .route('/:groupId/cards/:cardId/add-label')
-  .post(cardController.addLabel)
+  .post(cardController.addLabel);
 
 router
   .route('/:groupId/cards/:cardId/remove-label/:labelId')
-  .delete(cardController.removeLabel)
+  .delete(cardController.removeLabel);
 
 module.exports = router;
 
