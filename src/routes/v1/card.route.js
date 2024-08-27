@@ -16,6 +16,14 @@ router
   .route('/:groupId/cards/:cardId/change-position')
   .post(cardController.changeCardPosition)
 
+router
+  .route('/:groupId/cards/:cardId/add-label')
+  .post(cardController.addLabel)
+
+router
+  .route('/:groupId/cards/:cardId/remove-label/:labelId')
+  .delete(cardController.removeLabel)
+
 module.exports = router;
 
 /**

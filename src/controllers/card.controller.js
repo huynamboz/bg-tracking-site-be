@@ -34,10 +34,16 @@ const getCards = catchAsync(async (req, res) => {
 
   // Xử lý nếu một item không có position
   const cards = await cardService.queryCards(filter, options);
-  const results = cards.results.map(card => ({
-    ...card.toJSON(),
-    position: card.toJSON().position ? card.toJSON().position : 0,
-  }))
+
+  // Truy vấn các labels liên quan đến từng card
+  const results = await Promise.all(cards.results.map(async card => {
+    const labels = await cardService.getLabelsByCard(card._id);
+    return {
+      ...card.toJSON(),
+      position: card.toJSON().position ? card.toJSON().position : 0,
+      labels
+    };
+  }));
 
   res.send({
     ...cards,
@@ -97,9 +103,24 @@ const changeCardPosition = catchAsync(async (req, res) => {
   res.send(card);
 });
 
+const addLabel = catchAsync(async (req, res) => {
+  const { cardId } = req.params;
+  const cardBody = req.body;
+  const label = await cardService.addLabel(cardId, cardBody);
+  res.send(label);
+});
+
+const removeLabel = catchAsync(async (req, res) => {
+  const { labelId } = req.params;
+  const label = await cardService.removeLabel(labelId);
+  res.send(label);
+});
+
 
 module.exports = {
   getCards,
   createCard,
-  changeCardPosition
+  changeCardPosition,
+  addLabel,
+  removeLabel
 };

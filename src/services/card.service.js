@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Card } = require('../models');
+const { Card, Label } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 const createCard = async (cardBody) => {
@@ -42,11 +42,39 @@ const updatePositions = async (cards) => {
   await Card.bulkWrite(bulkOps);
 };
 
+const addLabel = async (cardId, cardBody) => {
+  const card = await getCardById(cardId);
+  if (!card) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Card not found');
+  }
+  cardBody.card = cardId;
+  const label = await Label.create(cardBody);
+  
+  return label;
+};
+
+const getLabelsByCard = async (cardId) => {
+  const labels = await Label.find({ card: cardId });
+  return labels;
+}
+
+const removeLabel = async (labelId) => {
+  const label = await Label.findById(labelId);
+  if (!label) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Label not found');
+  }
+  await label.remove();
+  return label;
+}
+
 module.exports = {
   createCard,
   queryCards,
   getCardsByGroup,
   getCardById,
   updateCard,
-  updatePositions
+  updatePositions,
+  addLabel,
+  getLabelsByCard,
+  removeLabel,
 };

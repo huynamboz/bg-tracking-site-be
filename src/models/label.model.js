@@ -14,6 +14,11 @@ const labelSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    card: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Card',
+      required: true,
+    },
   },
   {
     timestamps: true,
