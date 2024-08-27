@@ -21,6 +21,15 @@ const getCardById = async (id) => {
   return Card.findById(id);
 }
 
+const deleteCard = async (cardId) => {
+  const card = await getCardById(cardId);
+  if (!card) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Card not found');
+  }
+  await card.remove();
+  return card;
+};
+
 const updateCard = async (cardId, updateBody) => {
   const card = await getCardById(cardId);
   if (!card) {
@@ -77,4 +86,5 @@ module.exports = {
   addLabel,
   getLabelsByCard,
   removeLabel,
+  deleteCard,
 };

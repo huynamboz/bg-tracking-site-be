@@ -15,6 +15,7 @@ router
 router
   .route('/:groupId/cards/:cardId')
   .patch(cardController.updateCard)
+  .delete(cardController.deleteCard);
 
 router
   .route('/:groupId/cards/:cardId/change-position')

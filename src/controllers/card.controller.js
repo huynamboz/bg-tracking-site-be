@@ -24,6 +24,10 @@ const createCard = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(board);
 });
 
+const deleteCard = catchAsync(async (req, res) => {
+  await cardService.deleteCard(req.params.cardId);
+  res.status(httpStatus.NO_CONTENT).send();
+});
 // get all cards by group sorted by position desc
 const getCards = catchAsync(async (req, res) => {
   let filter = pick(req.query, ['name']);
@@ -130,4 +134,5 @@ module.exports = {
   addLabel,
   removeLabel,
   updateCard,
+  deleteCard,
 };
