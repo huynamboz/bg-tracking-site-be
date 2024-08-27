@@ -12,6 +12,9 @@ router
   .post(groupCardController.createGroupCard)
   .get(groupCardController.getGroupCards);
 
+router
+  .route('/:boardId/group-cards/:groupId/change-position')
+  .post(groupCardController.changeGroupCardPosition)
 module.exports = router;
 
 /**
