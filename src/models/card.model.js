@@ -9,11 +9,6 @@ const cardSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    user: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
-      required: true,
-    },
     group: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'GroupCard',
@@ -21,7 +16,7 @@ const cardSchema = mongoose.Schema(
     },
     position: {
       type: Number,
-      required: true,
+      required: false,
     },
     description: {
       type: String,

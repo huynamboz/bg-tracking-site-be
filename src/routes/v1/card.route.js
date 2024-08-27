@@ -3,23 +3,18 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const userValidation = require('../../validations/user.validation');
 const userController = require('../../controllers/user.controller');
+const cardController = require('../../controllers/card.controller');
 
 const router = express.Router();
 
 router
-  .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .route('/:groupId/cards')
+  .post(cardController.createCard)
+  .get(cardController.getCards);
 
 router
-  .route('/my-info')
-  .get(auth('getInfo'), userController.getMyInfo)
-
-router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:groupId/cards/:cardId/change-position')
+  .post(cardController.changeCardPosition)
 
 module.exports = router;
 

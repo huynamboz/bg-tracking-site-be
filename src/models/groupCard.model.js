@@ -11,7 +11,7 @@ const groupCardSchema = mongoose.Schema(
     },
     position: {
       type: Number,
-      required: true,
+      required: false,
     },
     board: {
       type: mongoose.SchemaTypes.ObjectId,
