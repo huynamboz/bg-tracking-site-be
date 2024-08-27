@@ -13,7 +13,6 @@ const createCard = catchAsync(async (req, res) => {
   const cards = await cardService.getCardsByGroup(req.params.groupId);
 
   if (cards.length > 0) {
-    // cardBody.position = cards[0].position ? cards[0].position + 1 : 1;
     // find max position
     const maxPosition = Math.max(...cards.map(card => card.position));
     cardBody.position = maxPosition + 1;
@@ -35,13 +34,11 @@ const getCards = catchAsync(async (req, res) => {
 
   // Xử lý nếu một item không có position
   const cards = await cardService.queryCards(filter, options);
-  
   const results = cards.results.map(card => ({
-    ...card._doc,
-    position: card._doc.position ? card._doc.position : 0, // Gán giá trị lớn nhất nếu không có position
+    ...card.toJSON(),
+    position: card.toJSON().position ? card.toJSON().position : 0,
   }))
 
-  // const result = await cardService.queryCards(filter, options);
   res.send({
     ...cards,
     results,
@@ -66,20 +63,32 @@ const changeCardPosition = catchAsync(async (req, res) => {
 
   card.group = newGroupId;
 
-  if (cards.length > 0) {
-    // find all card in cards have position > cardPrevious.position and increase 1
-    const cardsIncrease = cards.filter(card => card.position > cardPrevious.position);
-    const cardsUpdate = cardsIncrease.map(card => ({
-      _id: card._doc._id,
-      position: card.position + 1,
-    }));
+ 
+    if (cards.length > 0) {
+      if (!cardPrevious) {
+        card.position = 0;
+        const cardsUpdate = cards.map(card => ({
+          _id: card._doc._id,
+          position: card.position + 1,
+        }));
+  
+        await cardService.updatePositions(cardsUpdate);
+  
+        await card.save();
+      } else {
+        // find all card in cards have position > cardPrevious.position and increase 1
+        const cardsIncrease = cards.filter(card => card.position > cardPrevious.position);
+        const cardsUpdate = cardsIncrease.map(card => ({
+          _id: card._doc._id,
+          position: card.position + 1,
+        }));
 
-    await cardService.updatePositions(cardsUpdate);
-    card.position = cardPrevious.position + 1;
+        await cardService.updatePositions(cardsUpdate);
+        card.position = cardPrevious.position + 1;
 
-    await card.save();
-
-  } else {
+        await card.save();
+      }
+    } else {
     card.position = 1;
 
     await card.save();
